@@ -60,6 +60,19 @@ void main() {
       print("Course code already exists. Please enter a different course.");
       continue;
     }
+    // Course code format validation 
+    
+    //(must start with a number and contain letters)
+    RegExp coursePattern = RegExp(r'^[0-9][A-Za-z0-9]*$');
+    if (!coursePattern.hasMatch(courseInput)) {
+      print("Invalid course code format. Must start with a number and contain letters/numbers only.");
+      continue;
+    }
+    // No spaces allowed
+    if (courseInput.contains(' ')) {
+      print("Invalid input. Course code cannot contain spaces.");
+      continue;
+      }
 
     // Input validation for units
     int courseUnits = 0;

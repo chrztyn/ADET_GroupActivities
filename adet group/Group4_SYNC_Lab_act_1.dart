@@ -93,4 +93,16 @@ void main() {
     units[courseInput] = courseUnits;
     print("Added: $courseInput ($courseUnits units)");
   }
+
+  print("\n----- SUMMARY -----\n");
+
+  // Sort course codes alphabetically
+  courses.sort();
+
+  // Compute total units
+  int totalUnits = 0;
+  for (var code in courses) {
+    totalUnits += units[code]!;
+  }
 }
+

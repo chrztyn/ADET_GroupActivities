@@ -47,6 +47,7 @@ void main() {
     String? courseInput = stdin.readLineSync();
 
     if (courseInput?.toLowerCase() == 'done') {
+      printSummary(courses, units, name, studentNumber, yearLevel, course);
       break;
     }
 
@@ -93,16 +94,47 @@ void main() {
     units[courseInput] = courseUnits;
     print("Added: $courseInput ($courseUnits units)");
   }
-
-  print("\n=========== SUMMARY ===========\n");
-
-  // Sort course codes alphabetically
-  courses.sort();
-
-  // Compute total units
-  int totalUnits = 0;
-  for (var code in courses) {
-    totalUnits += units[code]!;
-  }
 }
+
+// Print summary 
+void printSummary(List<String> courses, Map<String, int> units, String name, int studentNumber, int yearLevel, String course) {
+  // Sorting courses alphabetically
+  courses.sort();
+  // Compute totals
+  int totalSubjects = courses.length;
+  int totalUnits = units.values.fold(0, (sum, val) => sum + val);
+
+  // Convert year level to readable format
+  String yearText;
+  switch (yearLevel) {
+    case 1:
+      yearText = "1st Year";
+      break;
+    case 2:
+      yearText = "2nd Year";
+      break;
+    case 3:
+      yearText = "3rd Year";
+      break;
+    case 4:
+      yearText = "4th Year";
+      break;
+    default:
+      yearText = "$yearLevel Year";
+    }
+    print("\n========== SUMMARY ==========");
+    print("Name: $name");
+    print("Student number: $studentNumber");
+    print("Course: $course");
+    print("Year Level: $yearText\n");
+
+    print("Enrolled Courses:");
+    for (var c in courses) {
+      print("- $c (${units[c]} units)");
+    }
+
+    print("\nTotal Subjects: $totalSubjects");
+    print("Total Units: $totalUnits");
+    print("=============================");
+  }
 

@@ -55,6 +55,12 @@ void main() {
       continue;
     }
 
+    //Check for duplicate course code
+    if (courses.contains(courseInput)) {
+      print("Course code already exists. Please enter a different course.");
+      continue;
+    }
+
     // Input validation for units
     int courseUnits = 0;
     while (true) {
@@ -70,7 +76,6 @@ void main() {
         print("Invalid input. Please enter a positive whole number.");
       }
     }
-
     courses.add(courseInput);
     units[courseInput] = courseUnits;
     print("Added: $courseInput ($courseUnits units)");

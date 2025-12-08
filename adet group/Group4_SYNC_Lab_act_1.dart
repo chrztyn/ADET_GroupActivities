@@ -37,4 +37,42 @@ void main() {
       print("Invalid year level. Please enter a number from 1 to 4.");
     }
   }
+
+  // Course code and units input
+  List<String> courses = [];
+  Map<String, int> units = {};
+
+  while (true) {
+    stdout.write("Enter course code (or 'done' to finish): ");
+    String? courseInput = stdin.readLineSync();
+
+    if (courseInput?.toLowerCase() == 'done') {
+      break;
+    }
+
+    if (courseInput == null || courseInput.isEmpty) {
+      print("Invalid input. Please enter a course code.");
+      continue;
+    }
+
+    // Input validation for units
+    int courseUnits = 0;
+    while (true) {
+      stdout.write("Enter units: ");
+      String? unitsInput = stdin.readLineSync();
+
+      int? parsedUnits = int.tryParse(unitsInput ?? "");
+
+      if (parsedUnits != null && parsedUnits > 0) {
+        courseUnits = parsedUnits;
+        break;
+      } else {
+        print("Invalid input. Please enter a positive whole number.");
+      }
+    }
+
+    courses.add(courseInput);
+    units[courseInput] = courseUnits;
+    print("Added: $courseInput ($courseUnits units)");
+  }
 }

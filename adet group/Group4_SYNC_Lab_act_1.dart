@@ -94,7 +94,7 @@ void main() {
     print("Added: $courseInput ($courseUnits units)");
   }
 
-  print("\n----- SUMMARY -----\n");
+  print("\n=========== SUMMARY ===========\n");
 
   // Sort course codes alphabetically
   courses.sort();

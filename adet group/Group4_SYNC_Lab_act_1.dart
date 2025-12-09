@@ -1,18 +1,23 @@
 import 'dart:io';
 
 void main() {
-  // Inputs
+  // Input: Student Name
   stdout.write("Enter Student Name: ");
   String name = stdin.readLineSync() ?? "";
 
-  //Input Validation
+  while (name.trim().isEmpty || RegExp(r'[0-9]').hasMatch(name)) {
+    print("Error: Student name cannot contain numbers.");
+    stdout.write("Enter Student Name: ");
+    name = stdin.readLineSync() ?? "";
+  }
+
+  // Input Validation: Student Number
   int studentNumber = 0;
   while (true) {
     stdout.write("Enter Student Number: ");
     String? input = stdin.readLineSync();
 
     int? number = int.tryParse(input ?? "");
-
     if (number != null && number > 0) {
       studentNumber = number;
       break;
@@ -20,10 +25,12 @@ void main() {
       print("Invalid input. Please enter a positive whole number.");
     }
   }
+
+  // Input: Course
   stdout.write("Enter Course (e.g., BSIT in Networking): ");
   String course = stdin.readLineSync() ?? "";
 
-  //Input Validation
+  // Input Validation: Year Level 1–4
   int yearLevel = 0;
   while (true) {
     stdout.write("Enter Year Level (1-4): ");
@@ -38,7 +45,7 @@ void main() {
     }
   }
 
-  // Course code and units input
+  // Course Code and Units Input
   List<String> courses = [];
   Map<String, int> units = {};
 
@@ -48,49 +55,52 @@ void main() {
   while (true) {
     stdout.write("Enter course code (or 'done' to finish): ");
     String? courseInput = stdin.readLineSync();
-    
-    // Clean input
+
     if (courseInput == null) continue;
 
     courseInput = courseInput.trim().toUpperCase();
 
-    if (courseInput?.toLowerCase() == 'done') {
-      printSummary(courses, units, name, studentNumber, yearLevel, course);
-      break;
+    // If user types DONE
+    if (courseInput.toLowerCase() == 'done') {
+      if (courses.isEmpty) {
+        print("You must enter at least one course before finishing.");
+        continue;
+      } else {
+        printSummary(courses, units, name, studentNumber, yearLevel, course);
+        break;
+      }
     }
 
-    if (courseInput == null || courseInput.isEmpty) {
+    if (courseInput.isEmpty) {
       print("Invalid input. Please enter a course code.");
       continue;
     }
 
-    //Check for duplicate course code
+    // Duplicate course validation
     if (courses.contains(courseInput)) {
       print("Course code already exists. Please enter a different course.");
       continue;
     }
-    // Course code format validation 
-    
-    //(must start with a number and contain letters)
+
+    // Course format: must start with a number + contain letters/numbers only
     RegExp coursePattern = RegExp(r'^[0-9][A-Za-z0-9]*$');
     if (!coursePattern.hasMatch(courseInput)) {
       print("Invalid course code format. Must start with a number and contain letters/numbers only.");
       continue;
     }
-    // No spaces allowed
+
     if (courseInput.contains(' ')) {
       print("Invalid input. Course code cannot contain spaces.");
       continue;
-      }
+    }
 
-    // Input validation for units
+    // Units input
     int courseUnits = 0;
     while (true) {
       stdout.write("Enter number of units for $courseInput: ");
       String? unitsInput = stdin.readLineSync();
 
       int? parsedUnits = int.tryParse(unitsInput ?? "");
-
       if (parsedUnits != null && parsedUnits > 0) {
         courseUnits = parsedUnits;
         break;
@@ -98,16 +108,20 @@ void main() {
         print("Invalid input. Please enter a positive whole number.");
       }
     }
+
     courses.add(courseInput);
     units[courseInput] = courseUnits;
-    print("Added: $courseInput ($courseUnits units)");
+    print("Added: $courseInput ($courseUnits units)\n");
   }
 }
 
-// Print summary 
+
+
+// Print Summary Function
 void printSummary(List<String> courses, Map<String, int> units, String name, int studentNumber, int yearLevel, String course) {
-  // Sorting courses alphabetically
+  // Sort course codes alphabetically
   courses.sort();
+
   // Compute totals
   int totalSubjects = courses.length;
   int totalUnits = units.values.fold(0, (sum, val) => sum + val);
@@ -129,19 +143,21 @@ void printSummary(List<String> courses, Map<String, int> units, String name, int
       break;
     default:
       yearText = "$yearLevel Year";
-    }
-    print("\n========== SUMMARY ==========");
-    print("Name: $name");
-    print("Student number: $studentNumber");
-    print("Course: $course");
-    print("Year Level: $yearText\n");
-
-    print("Enrolled Courses:");
-    for (var c in courses) {
-      print("- $c (${units[c]} units)");
-    }
-
-    print("\nTotal Subjects: $totalSubjects");
-    print("Total Units: $totalUnits");
-    print("=============================");
   }
+
+  // Final Summary Output
+  print("\n========== SUMMARY ==========");
+  print("Name: $name");
+  print("Student Number: $studentNumber");
+  print("Course: $course");
+  print("Year Level: $yearText\n");
+
+  print("Enrolled Courses:");
+  for (var c in courses) {
+    print("- $c (${units[c]} units)");
+  }
+
+  print("\nTotal Subjects: $totalSubjects");
+  print("Total Units: $totalUnits");
+  print("=============================");
+}

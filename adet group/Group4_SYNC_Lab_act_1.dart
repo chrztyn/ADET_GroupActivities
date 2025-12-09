@@ -2,13 +2,20 @@ import 'dart:io';
 
 void main() {
   // Input: Student Name
-  stdout.write("Enter Student Name: ");
-  String name = stdin.readLineSync() ?? "";
 
-  while (name.trim().isEmpty || RegExp(r'[0-9]').hasMatch(name)) {
-    print("Error: Student name cannot contain numbers.");
+  String name = "";
+  while (true) {
     stdout.write("Enter Student Name: ");
-    name = stdin.readLineSync() ?? "";
+    name = stdin.readLineSync()!.trim();
+    if (name.isEmpty) {
+      print("Invalid input. Name cannot be empty.\n");
+      continue;
+    }
+    if (RegExp(r'[0-9]').hasMatch(name)) {
+      print("Invalid input. Name cannot contain numbers.\n");
+      continue;
+    }
+    break;
   }
 
   // Input Validation: Student Number
@@ -22,13 +29,20 @@ void main() {
       studentNumber = number;
       break;
     } else {
-      print("Invalid input. Please enter a positive whole number.");
+      print("Invalid input. Please enter a positive whole number.\n");
     }
   }
 
   // Input: Course
-  stdout.write("Enter Course (e.g., BSIT in Networking): ");
-  String course = stdin.readLineSync() ?? "";
+  String course = "";
+  while (true) {
+    stdout.write("Enter Course (e.g., BSIT in Networking): ");
+    course = stdin.readLineSync() ?? "";
+
+    if (course.isNotEmpty) break;
+
+    print("Invalid input. Course cannot be empty.\n");
+  }
 
   // Input Validation: Year Level 1–4
   int yearLevel = 0;
@@ -41,7 +55,7 @@ void main() {
       yearLevel = level;
       break;
     } else {
-      print("Invalid year level. Please enter a number from 1 to 4.");
+      print("Invalid year level. Please enter a number from 1 to 4.\n");
     }
   }
 
@@ -63,7 +77,7 @@ void main() {
     // If user types DONE
     if (courseInput.toLowerCase() == 'done') {
       if (courses.isEmpty) {
-        print("You must enter at least one course before finishing.");
+        print("You must enter at least one course before finishing.\n");
         continue;
       } else {
         printSummary(courses, units, name, studentNumber, yearLevel, course);
@@ -72,25 +86,25 @@ void main() {
     }
 
     if (courseInput.isEmpty) {
-      print("Invalid input. Please enter a course code.");
+      print("Invalid input. Please enter a course code.\n");
       continue;
     }
 
     // Duplicate course validation
     if (courses.contains(courseInput)) {
-      print("Course code already exists. Please enter a different course.");
+      print("Course code already exists. Please enter a different course.\n");
       continue;
     }
 
     // Course format: must start with a number + contain letters/numbers only
     RegExp coursePattern = RegExp(r'^[0-9][A-Za-z0-9]*$');
     if (!coursePattern.hasMatch(courseInput)) {
-      print("Invalid course code format. Must start with a number and contain letters/numbers only.");
+      print("Invalid course code format. Must start with a number and contain letters/numbers only.\n");
       continue;
     }
 
     if (courseInput.contains(' ')) {
-      print("Invalid input. Course code cannot contain spaces.");
+      print("Invalid input. Course code cannot contain spaces.\n");
       continue;
     }
 
@@ -105,7 +119,7 @@ void main() {
         courseUnits = parsedUnits;
         break;
       } else {
-        print("Invalid input. Please enter a positive whole number.");
+        print("Invalid input. Please enter a positive whole number.\n");
       }
     }
 
@@ -115,10 +129,15 @@ void main() {
   }
 }
 
-
-
 // Print Summary Function
-void printSummary(List<String> courses, Map<String, int> units, String name, int studentNumber, int yearLevel, String course) {
+void printSummary(
+  List<String> courses,
+  Map<String, int> units,
+  String name,
+  int studentNumber,
+  int yearLevel,
+  String course,
+) {
   // Sort course codes alphabetically
   courses.sort();
 

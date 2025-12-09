@@ -20,13 +20,13 @@ void main() {
       print("Invalid input. Please enter a positive whole number.");
     }
   }
-  stdout.write("Enter Course: ");
+  stdout.write("Enter Course (e.g., BSIT in Networking): ");
   String course = stdin.readLineSync() ?? "";
 
   //Input Validation
   int yearLevel = 0;
   while (true) {
-    stdout.write("Enter Year Level: ");
+    stdout.write("Enter Year Level (1-4): ");
     String? levelInput = stdin.readLineSync();
 
     int? level = int.tryParse(levelInput ?? "");
@@ -42,9 +42,17 @@ void main() {
   List<String> courses = [];
   Map<String, int> units = {};
 
+  print("\nEnter enrolled courses one by one.");
+  print('Type "done" when you are finished.\n');
+
   while (true) {
     stdout.write("Enter course code (or 'done' to finish): ");
     String? courseInput = stdin.readLineSync();
+    
+    // Clean input
+    if (courseInput == null) continue;
+
+    courseInput = courseInput.trim().toUpperCase();
 
     if (courseInput?.toLowerCase() == 'done') {
       printSummary(courses, units, name, studentNumber, yearLevel, course);
@@ -78,7 +86,7 @@ void main() {
     // Input validation for units
     int courseUnits = 0;
     while (true) {
-      stdout.write("Enter units: ");
+      stdout.write("Enter number of units for $courseInput: ");
       String? unitsInput = stdin.readLineSync();
 
       int? parsedUnits = int.tryParse(unitsInput ?? "");
@@ -137,4 +145,3 @@ void printSummary(List<String> courses, Map<String, int> units, String name, int
     print("Total Units: $totalUnits");
     print("=============================");
   }
-

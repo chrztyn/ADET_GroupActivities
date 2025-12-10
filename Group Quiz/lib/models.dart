@@ -31,7 +31,12 @@ class Student extends Person {
 
   @override
   void display() {
-    print("STUDENT | Name: $name | Email: $email | Student No: $_studnum");
+    print("=================STUDENT====================");
+    print("Name       : $name");
+    print("Email      : $email");
+    print("Username   : $username");
+    print("Student No.: $_studnum");
+    print("============================================");
   }
 }
 
@@ -44,6 +49,11 @@ class Employee extends Person {
 
   @override
   void display() {
-    print("EMPLOYEE | Name: $name | Email: $email | Employee No: $_empnum");
+    print("================EMPLOYEE====================");
+    print("Name       : $name");
+    print("Email      : $email");
+    print("Username   : $username");
+    print("Student No.: $_empnum");
+    print("============================================");
   }
 }

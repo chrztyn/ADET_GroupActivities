@@ -78,17 +78,20 @@ void registerStudent(List<Person> users) {
 
   // Get email
   String tempEmail = '';
-  while (tempEmail.isEmpty) {
+  while (tempEmail.isEmpty || !tempEmail.contains('@')) {
     stdout.write('Enter email: ');
     tempEmail = stdin.readLineSync()?.trim() ?? '';
+
     if (tempEmail.isEmpty) {
       print("Email cannot be empty. Please enter your email.\n");
+    } else if (!tempEmail.contains('@')) {
+      print("Invalid email. Email must contain '@'.\n");
+      tempEmail = '';
     }
   }
-
   final email = tempEmail;
 
-  // Generate temporary password
+  // Generate username and temporary password
   String tempPass = generateTempPassword();
   String username = generateUsername(name, studnum);
 
@@ -137,16 +140,21 @@ void registerEmployee(List<Person> users) {
 
   // Get email
   String tempEmail = '';
-  while (tempEmail.isEmpty) {
+  while (tempEmail.isEmpty || !tempEmail.contains('@')) {
     stdout.write('Enter HAU email: ');
     tempEmail = stdin.readLineSync()?.trim() ?? '';
+
     if (tempEmail.isEmpty) {
-      print('Email cannot be empty. Please enter your HAU email.\n');
+      print("Email cannot be empty. Please enter your email.\n");
+    } else if (!tempEmail.contains('@')) {
+      print("Invalid email. Email must contain '@'.\n");
+      tempEmail = '';
     }
   }
+
   final email = tempEmail;
 
-  // Generate temporary password
+  // Generate username and temporary password
   String tempPass = generateTempPassword();
   final username = generateUsername(name, empnum);
 

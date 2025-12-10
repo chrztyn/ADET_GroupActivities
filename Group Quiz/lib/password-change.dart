@@ -41,7 +41,7 @@ class PasswordChange {
       String confirmPw = stdin.readLineSync()?.trim() ?? "";
 
       if (confirmPw == newPw) {
-        break; // confirmed correctly
+        break;
       } else {
         stdout.writeln("Passwords do not match. Please try again.\n");
       }

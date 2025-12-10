@@ -40,51 +40,67 @@ void showMenu() {
   print('[3] Login');
   print('[4] View All Registered Users');
   print('[0] Exit');
-  stdout.write('Choose an option: ');
+  stdout.write('\nChoose an option: ');
 }
 
 void registerStudent(List<Person> users) {
   print('\n--- Student Registration ---');
 
   // Get student number
-  stdout.write('Enter student number: ');
-  final studnumInput = stdin.readLineSync()?.trim() ?? '';
-  final studnum = int.tryParse(studnumInput);
+  int? tempStudnum;
+  while (tempStudnum == null) {
+    stdout.write('Enter student number: ');
+    final studnumInput = stdin.readLineSync()?.trim() ?? '';
+    tempStudnum = int.tryParse(studnumInput);
 
-  if (studnum == null) {
-    print('Invalid student number. Registration cancelled.\n');
-    return;
+    if (tempStudnum == null) {
+      print('Invalid student number. Please enter a valid integer.\n');
+    }
   }
+
+  final studnum = tempStudnum;
 
   // Get full name
-  stdout.write('Enter full name: ');
-  final name = stdin.readLineSync()?.trim() ?? '';
+  String tempName = '';
+  while (tempName.isEmpty || !RegExp(r'^[a-zA-Z\s]+$').hasMatch(tempName)) {
+    stdout.write('Enter full name: ');
+    tempName = stdin.readLineSync()?.trim() ?? '';
 
-  if (name.isEmpty) {
-    print('Name cannot be empty. Registration cancelled.\n');
-    return;
+    if (tempName.isEmpty) {
+      print("Name cannot be empty. Please enter your full name.\n");
+    } else if (!RegExp(r'^[a-zA-Z\s]+$').hasMatch(tempName)) {
+      print("Name must contain letters only (no numbers or symbols).\n");
+      tempName = '';
+    }
   }
+
+  final name = tempName;
 
   // Get email
-  stdout.write('Enter HAU email: ');
-  final email = stdin.readLineSync()?.trim() ?? '';
-
-  if (email.isEmpty) {
-    print('Email cannot be empty. Registration cancelled.\n');
-    return;
+  String tempEmail = '';
+  while (tempEmail.isEmpty) {
+    stdout.write('Enter email: ');
+    tempEmail = stdin.readLineSync()?.trim() ?? '';
+    if (tempEmail.isEmpty) {
+      print("Email cannot be empty. Please enter your email.\n");
+    }
   }
 
+  final email = tempEmail;
+
   // Generate temporary password
-  final tempPass = generateTempPassword();
+  String tempPass = generateTempPassword();
+  String username = generateUsername(name, studnum);
 
   // Create student object
-  Student s = Student(name, email, tempPass, studnum);
+  Student s = Student(name, email, tempPass, username, studnum);
   users.add(s);
 
   // Confirmation
   print("\nWelcome ${s.name}");
-  print("You registered $email as your username");
   print("Your student number: $studnum");
+  print("You registered email is: $email");
+  print("Your username is:  $username");
   print("Your temporary password is: $tempPass\n");
 }
 
@@ -92,44 +108,57 @@ void registerEmployee(List<Person> users) {
   print('\n--- Employee Registration ---');
 
   // Get employee number
-  stdout.write('Enter employee number: ');
-  final empnumInput = stdin.readLineSync()?.trim() ?? '';
-  final empnum = int.tryParse(empnumInput);
+  int? tempEmpnum;
+  while (tempEmpnum == null) {
+    stdout.write('Enter employee number: ');
+    final input = stdin.readLineSync()?.trim() ?? '';
+    tempEmpnum = int.tryParse(input);
 
-  if (empnum == null) {
-    print('Invalid employee number. Registration cancelled.\n');
-    return;
+    if (tempEmpnum == null) {
+      print('Invalid employee number. Please enter a valid integer.\n');
+    }
   }
+  final empnum = tempEmpnum;
 
   // Get full name
-  stdout.write('Enter full name: ');
-  final name = stdin.readLineSync()?.trim() ?? '';
+  String tempName = '';
+  while (tempName.isEmpty || !RegExp(r'^[a-zA-Z\s]+$').hasMatch(tempName)) {
+    stdout.write('Enter full name: ');
+    tempName = stdin.readLineSync()?.trim() ?? '';
 
-  if (name.isEmpty) {
-    print('Name cannot be empty. Registration cancelled.\n');
-    return;
+    if (tempName.isEmpty) {
+      print('Name cannot be empty. Please enter your full name.\n');
+    } else if (!RegExp(r'^[a-zA-Z\s]+$').hasMatch(tempName)) {
+      print('Name must contain letters and spaces only (no numbers or symbols).\n');
+      tempName = '';
+    }
   }
+  final name = tempName;
 
   // Get email
-  stdout.write('Enter HAU email: ');
-  final email = stdin.readLineSync()?.trim() ?? '';
-
-  if (email.isEmpty) {
-    print('Email cannot be empty. Registration cancelled.\n');
-    return;
+  String tempEmail = '';
+  while (tempEmail.isEmpty) {
+    stdout.write('Enter HAU email: ');
+    tempEmail = stdin.readLineSync()?.trim() ?? '';
+    if (tempEmail.isEmpty) {
+      print('Email cannot be empty. Please enter your HAU email.\n');
+    }
   }
+  final email = tempEmail;
 
   // Generate temporary password
-  final tempPass = generateTempPassword();
+  String tempPass = generateTempPassword();
+  final username = generateUsername(name, empnum);
 
   // Create employee object
-  Employee e = Employee(name, email, tempPass, empnum);
+  Employee e = Employee(name, email, tempPass, username, empnum);
   users.add(e);
 
   // Confirmation
   print("\nWelcome ${e.name}");
-  print("You registered $email as your username");
   print("Your employee number: $empnum");
+  print("You registered email is: $email");
+  print("Your username is: $username");
   print("Your temporary password is: $tempPass\n");
 }
 

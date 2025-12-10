@@ -3,7 +3,6 @@ import 'models.dart';
 
 class AuthLogin {
   static Person? login(List<Person> users) {
-
     // Check if any users exist
     if (users.isEmpty) {
       stdout.writeln('No users registered yet.');
@@ -37,11 +36,11 @@ class AuthLogin {
       } else {
         // Track failed attempts
         user.failedAttempts++;
-        stdout.writeln('Incorrect password. Attempt $attempt of 3.');
+        stdout.writeln('Incorrect password. Attempt $attempt of 3.\n');
 
         // Lock account after 3 failed attempts
         if (user.failedAttempts >= 3) {
-          stdout.writeln('Account locked. Please contact admin.');
+          stdout.writeln('\nAccount locked. Please contact admin.');
           return null;
         }
       }
@@ -54,8 +53,7 @@ class AuthLogin {
 Person? _findByUsername(List<Person> users, String usernameOrEmail) {
   final lookup = usernameOrEmail.toLowerCase();
   for (final user in users) {
-    if (user.name.toLowerCase() == lookup ||
-        user.email.toLowerCase() == lookup) {
+    if (user.username.toLowerCase() == lookup || user.email.toLowerCase() == lookup) {
       return user;
     }
   }

@@ -3,8 +3,6 @@ import 'models.dart';
 
 class PasswordChange {
   static void changePassword(Person user) {
-    stdout.writeln("\n----- CHANGE PASSWORD -----");
-
     // Ask for old password
     stdout.write("Enter old password: ");
     final oldPw = stdin.readLineSync()?.trim() ?? "";
